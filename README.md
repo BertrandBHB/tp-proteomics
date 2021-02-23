@@ -160,39 +160,40 @@ La lecture des données au format tabulé est l'occasion de se familliariser ave
 La fonction `read_csv` accepte différents [arguments](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html) de format de données très utiles.
 
 ```python
-df = pandas.read_csv()
+df = pandas.read_csv("data/TCL_wt1.tsv",sep="\t",header=0)
 ```
 
 Quel est le type de l'objet `df`?
 ```
-
+type(df)
+dataframe
 ```
 
 ##### Descriptions d'une table de données
 Que permettent les méthodes suivantes?
 ###### df.shape
-```
+```dimension de la matrice
 ```
 ###### df.head()
-```
+```le début de la dataframe
 ```
 ###### df.tail()
-```
+```la fin de la dataframe
 ```
 ###### df.columns
-```
+```le nom des colonnes
 ```
 ###### df.dtypes
-```
+```le nom des colonnes et leur type
 ```
 ###### df.info
-```
+```le début et la fin de la dataframe
 ```
 ###### df.describe()
-```
+```le résumé des colonnes de type float
 ```
 ###### df.dropna()
-```
+```enlève les lignes avec les NA
 ```
 
 ##### Accès aux éléments d'une table de données
@@ -201,7 +202,7 @@ Que permettent les méthodes suivantes?
 values = df[['Description', 'Gene Symbol']]
 ```
 
-Quel est le type de `values` ?
+Quel est le type de `values` ? df
 
 Verifiez si certaines méthodes de `DataFrame` lui sont applicables.
 Ce type supporte l'accès par indice et les slice `[a:b]`
@@ -212,17 +213,19 @@ On peut accéder aux valeurs du DataFrame via des indices ou plages d'indice. La
 Il y a différentes manières de le faire, l'utilisation de `.iloc[slice_ligne,slice_colonne]` constitue une des solutions les plus simples. N'oublions pas que shape permet d'obtenir les dimensions (lignes et colonnes) du DataFrame.
 ###### Acceder aux cinq premières lignes de toutes les colonnes
 ```python
-
+df.iloc[5,]
+df[1:5]
 ```
 
 ###### Acceder à toutes les lignes de la dernière colonne
 ```python
-
+df.iloc[:,6]
+df.iloc[:,df.shape[1]-1]
 ```
 
 ###### Acceder aux cinq premières lignes des colonnes 0, 2 et 3
 ```python
-
+df.iloc[1:5,[0,2,3]]
 ```
 
 ##### Conversion de type
@@ -240,6 +243,7 @@ pandas.read_csv('data/TCL_wt1.tsv', sep="\t",  dtype = {'Accession': str, 'Descr
 * modifiée à la volée
 
 ```python
+df=df.dropna()
 df = df.astype({'Log2 Corrected Abundance Ratio': float, '-LOG10 Adj.P-val': float } )
 ```
 
@@ -264,10 +268,18 @@ df.loc[ df['Gene Symbol'].isin(['fadR', 'arcA'] ) ]
 ##### 1. Charger le contenu du fichier `data/TCL_wt1.tsv` dans un notebook en eliminant les lignes porteuses de valeurs numériques aberrantes
 
 ##### 2. Representez par un histogramme les valeurs de `Log2 Corrected Abundance Ratio`
+%matplotlib nbagg
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import norm
+fig, ax = plt.subplots()
+hist = ax.hist(df[['Log2 Corrected Abundance Ratio']], bins=100) # draw histogram
+
+
 
 ##### 3. A partir de cette échantillon de ratio d'abondance,  estimez la moyenne <img src="https://render.githubusercontent.com/render/math?math=\mu"> et l'ecart-type <img src="https://render.githubusercontent.com/render/math?math=\sigma"> d'une loi normale.
 ```
-
+import numpy as np
 
 ```
 
